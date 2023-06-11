@@ -138,6 +138,10 @@ module.exports = function (app){
     app.post('/index/updateGroupMsg',(req,res)=>{
         index.updateGroupMsg(req,res)
     })
+    //添加群消息
+    app.post('/index/sendGroupMsg',(req,res)=>{
+        group.insertGroupMsg(req,res)
+    })
 
     /** 聊天页面*/
     app.post('/chat/msg',(req,res)=>{

@@ -13,3 +13,10 @@ exports.applyFriend = function (req,res){
     let data = req.body
     dbserve.applyFriend(data,res)
 }
+
+//添加群消息
+exports.insertGroupMsg = function (req,res){
+    let data= req.body
+    console.log(data)
+    dbserve.insertGroupMsg(data,res)
+}

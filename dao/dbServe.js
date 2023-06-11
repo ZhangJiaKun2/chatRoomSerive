@@ -641,7 +641,31 @@ exports.getGroupMsg = (gid,res)=>{
         res.send({state:200,data:{data:result,msg:'success'}})
     })
 }
+//保存群消息
+exports.insertGroupMsg = function (data,res){
+    let {uid,gid,msg,type} = data
+    let saveData = {
+        userID:uid,   //用户id
+        groupID:gid,      //好友id
+        message:msg,                              //消息
+        types:type,                                //内容类型
+        time:new Date(),                                   //时间
 
+    }
+    console.log(saveData,'savedata')
+    let message = new GroupMsg(saveData)
+    message.save(function (err,result){
+        // console.log(result)
+        if(err){
+            res.send({
+                status:500,
+                message: err instanceof Error ? err.message : err
+            })
+        }else{
+            res.send({status:200,data:{msg:'消息添加成功'}})
+        }
+    })
+}
 //群消息状态修改
 exports.updateGroupMsg = (data,res)=>{
     let {uid,gid} = data
