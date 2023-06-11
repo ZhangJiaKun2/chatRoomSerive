@@ -35,7 +35,7 @@ exports.getGroupList = (req,res)=>{
     dbserve.getGroupList(uid,res)
 }
 //获取群最后一条消息
-exports.getGroupLastMsg = (req,res)=>{
+exports.getGroupMsg = (req,res)=>{
     let gid = req.body.gid
     dbserve.getGroupMsg(gid,res)
 }

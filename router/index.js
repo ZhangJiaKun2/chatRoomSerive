@@ -131,8 +131,8 @@ module.exports = function (app){
         index.getGroupList(req,res)
     })
     //获取最后一条群消息
-    app.post('/index/getGroupLastMsg',(req,res)=>{
-        index.getGroupLastMsg(req,res)
+    app.post('/index/getGroupMsg',(req,res)=>{
+        index.getGroupMsg(req,res)
     })
     //更新群消息标已读
     app.post('/index/updateGroupMsg',(req,res)=>{
