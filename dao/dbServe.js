@@ -622,22 +622,36 @@ exports.getGroupList = (uid,res)=>{
 }
 
 //按要求获取群消息
-exports.getGroupMsg = (gid,res)=>{
+exports.getGroupMsg = (data,res)=>{
+    console.log(data,'gm')
+    let {gid,nowPage,pageSize} = data
+    let skipNum = nowPage*pageSize   //跳过的页数
     let query = GroupMsg.find({})
     //查询条件
     query.where({groupID:gid})
-    query.populate('groupID')
-    query.sort({lastTime:-1})
+    query.populate('userID')
+    query.sort({time:-1})
+    //跳过的条数
+    query.skip(skipNum)
+    //一页条数
+    query.limit(pageSize)
 
     //查询结果
     query.exec().then(function (item){
         console.log(item)
-        let result = {
-            message:item.message,
-            time:item.time,
-            types:item.types,
-            name:item.userID.name
-        }
+        let result = item.map(i=>{
+            return {
+                id:i._id,
+                message:i.message,
+                types:i.types,
+                time:i.time,
+                from:i.userID._id,
+                markname:i.name,
+                imgurl:i.userID.imgurl,
+                // lastTime:item.lastTime,
+                // tip:item.tip
+            }
+        })
         res.send({state:200,data:{data:result,msg:'success'}})
     })
 }
@@ -652,7 +666,6 @@ exports.insertGroupMsg = function (data,res){
         time:new Date(),                                   //时间
 
     }
-    console.log(saveData,'savedata')
     let message = new GroupMsg(saveData)
     message.save(function (err,result){
         // console.log(result)
@@ -666,6 +679,7 @@ exports.insertGroupMsg = function (data,res){
         }
     })
 }
+//
 //群消息状态修改
 exports.updateGroupMsg = (data,res)=>{
     let {uid,gid} = data
@@ -684,7 +698,7 @@ exports.updateGroupMsg = (data,res)=>{
 /**消息操作 */
 //获取一对一聊天数据
 exports.msg = (data,res)=>{
-    console.log(data)
+    console.log(data,'onemsg')
     let {uid,fid,nowPage,pageSize} = data
     let skipNum = nowPage*pageSize   //跳过的页数
     let query = OneMsg.find({})
@@ -709,8 +723,6 @@ exports.msg = (data,res)=>{
                 from:i.userID._id,
                 markname:i.name,
                 imgurl:i.userID.imgurl,
-                // lastTime:item.lastTime,
-                // tip:item.tip
             }
         })
         res.send({state:200,data:{data:result,msg:'success'}})

@@ -17,6 +17,7 @@ exports.applyFriend = function (req,res){
 //添加群消息
 exports.insertGroupMsg = function (req,res){
     let data= req.body
-    console.log(data)
     dbserve.insertGroupMsg(data,res)
 }
+
+//获取群消息

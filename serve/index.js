@@ -34,11 +34,12 @@ exports.getGroupList = (req,res)=>{
     let uid = req.body.uid
     dbserve.getGroupList(uid,res)
 }
-//获取群最后一条消息
+//获取群消息
 exports.getGroupMsg = (req,res)=>{
-    let gid = req.body.gid
-    dbserve.getGroupMsg(gid,res)
+    let data = req.body
+    dbserve.getGroupMsg(data,res)
 }
+
 //群消息标已读
 exports.updateGroupMsg = (req,res)=>{
     let data = req.body
